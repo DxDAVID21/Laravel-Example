@@ -16,8 +16,8 @@ use App\Http\Controllers\TodoController;
 
 Route::get('/', [TodoController::class, "index"] );
 Route::post("/todos", [TodoController::class,"store"] );
-Route::patch("/todos/{todos}", [TodoController::class,"toggle"] );
-Route::delete("/todos/{todos}", [TodoController::class,"delete"] );
+Route::patch("/todos/{todo}", [TodoController::class,"toggle"] );
+Route::delete("/todos/{todo}", [TodoController::class,"destroy"] );
 
 // Route::get('/', function () {
 //     return view('welcome');

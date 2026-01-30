@@ -14,19 +14,16 @@ class TodoController extends Controller
     }
 
     public function store(Request $request) {
-        if ($request->has("title") || trim($request->title) === '') {
-            return back();
-        }
-
-        Todo::create([
-            "title"=> $request->title,
-        ]);
+        $todo = new Todo();
+        $todo->title = $request->title;
+        $todo->completed = 0;
+        $todo->save();
 
         return redirect()->back();
     }
 
     public function toggle(Todo $todo) {
-        $todo->completed = !$todo->completed;
+        $todo->completed = ! $todo->completed;
         $todo->save();
 
         return redirect()->back();
