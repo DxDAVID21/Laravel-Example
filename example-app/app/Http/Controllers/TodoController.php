@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Todo;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class TodoController extends Controller
@@ -10,7 +11,8 @@ class TodoController extends Controller
     // Mostra la llista
     public function index() {
         $todos = Todo::all();
-        return view("todos.index", ["todos" => $todos ]);
+        $categories = Category::all();
+        return view("todos.index", ["todos" => $todos, 'categories'=> $categories]);
     }
     public function store(Request $request) {
         $request ->validate([
@@ -19,6 +21,7 @@ class TodoController extends Controller
 
         $todo = new Todo;
         $todo -> title = $request -> title;
+        $todo -> category_id = $request -> category_id;
         $todo -> save();
 
         return redirect()->route("todos")->with("success","Tarea creada correctamente");

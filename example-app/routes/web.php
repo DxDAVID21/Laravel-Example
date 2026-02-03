@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoriesController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TodoController;
 
@@ -26,4 +27,4 @@ Route::get("/tareas/{id}", [TodoController::class,"show"])->name("todos-edit");
 Route::patch("/tareas/{id}", [TodoController::class,"update"])->name("todos-update");
 Route::delete("/tareas/{id}", [TodoController::class,"destroy"])->name("todos-destroy");
 
- 
+Route::resource("categories", CategoriesController::class);
