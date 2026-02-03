@@ -1,46 +1,41 @@
-<!DOCTYPE html>
-<html lang="ca">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Todo List</title>
-</head>
-<style>
-  .done{
-    text-decoration: line-through;
-    color: #999;
-  }
-</style>
-<body>
-  <h1>Todo List</h1>
-  <p>Total tareas: {{ $todos->count() }}</p>
+@extends('app')
 
+@section('content')
+  <div class="container w-25 border p-4 mt-4">
+    <form action="{{ route('todos') }}" method="POST">
+      @csrf
 
-  <form method="POST" action="/todos">
-    @csrf
-    <input type="text" name="title" placeholder="Nova tasca">
-    <button type="submit">Afegir</button>
-  </form>
-  <ul>
-  @foreach ($todos as $todo)
-    <li>
-      <form method="POST" action="/todos/{{ $todo->id }}" style="display:inline;">
-        @csrf
-        @method('PATCH')
-        <button type="submit">Check</button>
-      </form>
+      @if (session("success"))
+        <h6 class="alert alert-success">{{ session("success") }}</h6>
+      @endif
 
-      <span class="{{ $todo->completed ? 'done' : '' }}">
-        {{ $todo->title }}
-      </span>
+      @error("title")
+        <h6 class="alert alert-danger">{{ $message }}</h6>
+      @enderror
 
-      <form method="POST" action="/todos/{{ $todo->id }}" style="display:inline;">
-        @csrf
-        @method('DELETE')
-        <button type="submit">Eliminar</button>
-      </form>
-    </li>
-  @endforeach  
-  </ul>
-</body>
-</html>
+      <div class="mb-3">
+        <label for="title" class="form-label">Titulo de la tarea</label>
+        <input type="text" name="title" class="form-control"  >
+      </div>
+      <button type="submit" class="btn btn-primary">Crear nueva tarea</button>
+    </form>
+
+    <div>
+      @foreach ($todos as $todo)
+        <div class="row py-1">
+          <div class="col-md-9 d-flex align-items-center">
+            <a href="{{ route("todos-edit", ["id" => $todo -> id]) }}">{{ $todo->title }}</a>
+          </div>
+
+          <div class="col-md-3 d-flex justify-content-end">
+            <form action="{{ route("todos-destroy", [$todo -> id]) }}" method="POST">
+              @method('DELETE')
+              @csrf
+              <button class="btn btn-danger btn-sm">Eliminar</button>
+            </form>
+          </div>
+        </div>
+      @endforeach
+    </div>
+  </div>
+@endsection
