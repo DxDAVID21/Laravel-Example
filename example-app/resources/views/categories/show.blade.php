@@ -28,7 +28,7 @@
         <button type="submit" class="btn btn-primary">Actualizar categoría</button>
       </form>
 
-      <div class="">
+      <div>
         @if ($category->todos->count() > 0)
           @foreach ($category->todos as $todo)
             <div class="row py-1">

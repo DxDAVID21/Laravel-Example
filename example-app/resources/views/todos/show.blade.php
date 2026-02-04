@@ -18,6 +18,16 @@
         <label for="title" class="form-label">Titulo de la tarea</label>
         <input type="text" name="title" class="form-control"  value="{{ $todo->title }}">
       </div>
+
+      <div class="mb-3">
+        <label for="category_id" class="form-label">Canviar categoría de la tarea</label>
+        <select name="category_id" id="" class="form-select">
+          @foreach ($categories as $category)
+            <option value="{{ $category->id }}">{{ $category->name }}<option>
+          @endforeach
+        </select>
+      </div>
+
       <button type="submit" class="btn btn-primary">Actualizar tarea</button>
     </form>
   </div>

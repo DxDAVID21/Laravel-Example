@@ -24,7 +24,7 @@
           <option value="{{ $category->id }}">{{ $category->name }}</option>
         @endforeach
       </select>
-      
+
       <button type="submit" class="btn btn-primary">Crear nueva tarea</button>
     </form>
 
@@ -33,7 +33,9 @@
         <div class="row py-1">
           <div class="col-md-9 d-flex align-items-center">
             <a href="{{ route("todos-edit", ["id" => $todo -> id]) }}">{{ $todo->title }}</a>
+            <span class="color-container" style="background-color: {{ $todo->category->color }}"></span>{{ $todo->category->name }}
           </div>
+
 
           <div class="col-md-3 d-flex justify-content-end">
             <form action="{{ route("todos-destroy", [$todo -> id]) }}" method="POST">

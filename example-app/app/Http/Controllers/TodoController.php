@@ -10,7 +10,7 @@ class TodoController extends Controller
 {
     // Mostra la llista
     public function index() {
-        $todos = Todo::all();
+        $todos = Todo::with("category")->get();
         $categories = Category::all();
         return view("todos.index", ["todos" => $todos, 'categories'=> $categories]);
     }
@@ -29,12 +29,19 @@ class TodoController extends Controller
 
     public function show($id) {
         $todo = Todo::find($id);
-        return view("todos.show", ["todo" => $todo ]);
+        $categories = Category::all();
+        return view("todos.show", ["todo" => $todo, "categories"=> $categories]);
     }
 
     public function update(Request $request, $id) {
+        $request ->validate([
+            "title"=> 'required|min:3',
+            "category_id"=> 'required|exists:categories,id',
+        ]);
+    
         $todo = Todo::find($id);
         $todo->title = $request -> title;
+        $todo->category_id = $request -> category_id;
         $todo -> save();
 
         // dd($request); Debug
